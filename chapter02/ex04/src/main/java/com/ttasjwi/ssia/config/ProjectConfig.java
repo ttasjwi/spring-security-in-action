@@ -15,19 +15,12 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-
-        UserDetails user = User.withUsername("user")
+        auth.inMemoryAuthentication()
+                .withUser("user")
                 .password("1111")
-                .authorities("read") // 아무런 권한을 하나 만들어서 지정해준다.
-                .build();
-
-        userDetailsService.createUser(user);
-
-        PasswordEncoder passwordEncoder = NoOpPasswordEncoder.getInstance(); // 암호 인코딩 없이, 평문으로 비교(Deprecated)
-
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
+                .authorities("read")
+            .and()
+                .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
     @Override
