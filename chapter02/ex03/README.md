@@ -26,3 +26,10 @@
 - configure 메서드를 오버라이드 함으로서 UserDetailsService, PasswordEncoder를 설정할 수 있다.
 
 ---
+
+## 주의
+- UserDetailsService, PasswordEncoder 를 스프링 빈으로 등록할 수 있다.
+- configure 메서드를 오버라이드 하여 이들을 설정할 수 있다.
+- 하지만 이 구성방식을 혼합하여 사용하면 헷갈릴 수 있으므로 섞어 쓰지 말자
+
+---
