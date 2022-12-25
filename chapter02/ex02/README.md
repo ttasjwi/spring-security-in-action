@@ -49,3 +49,21 @@ java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the i
 하지만 아직 PasswordEncoder를 빈으로 등록하지 않았기 때문에 예외가 발생한다.
 
 ---
+
+## PasswordEncoder
+```java
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance(); // 암호 인코딩 없이, 평문으로 비교(Deprecated)
+    }
+```
+- 기능이 일단 돌아갈 수 있도록, NoOpPasswordEncoder 를 빈으로 등록한다.
+- 이것은 암호를 별도로 인코딩하지 않고 평문으로 비교한다. (그래서 공식적으로 Deprecated됨)
+```shell
+$ curl -u user:1111 http://localhost:8080/hello                                                      
+Hello!
+```
+이제 정상적으로 엔드포인트 호출에 성공한다.
+
+---
