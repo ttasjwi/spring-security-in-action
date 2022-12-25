@@ -67,3 +67,25 @@ Hello!
 이제 정상적으로 엔드포인트 호출에 성공한다.
 
 ---
+
+## 엔드포인트 권한 부여 구성 재정의
+```java
+@Configuration
+public class ProjectConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic(); // HTTP Basic 방식으로 인증
+
+        http.authorizeRequests()
+                .anyRequest().authenticated(); // 모든 요청에 대해 인증
+
+        // http.authorizeRequests().anyRequest().permitAll(); // 모든 요청에 대해 인증 없이 허락
+    }
+}
+```
+- WebSecurityConfigurerAdapter 클래스를 확장하여, 인증을 위한 권한 부여 구성 방법을 재정의한다.
+  - 기본적으로 HttpBasic 방식으로 인증 하도록 한다.
+  - 모든 요청에 대해 인증을 필요로 하도록 설정
+- WebSecurityConfigurerAdapter 클래스를 확장한 클래스는 단 하나만 존재해야 한다.
+
+---
