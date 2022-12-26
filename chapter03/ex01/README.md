@@ -181,3 +181,18 @@ public class SecurityUser implements UserDetails {
 - UserDetails 구현체가 사용자 엔티티를 의존하게 하고 인증에 관한 로직은 이 곳에 두도록 하면 된다.
 
 ---
+
+## UserDetailsService
+```java
+public interface UserDetailsService {
+
+	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+}
+```
+- UserDetailsService는 사용자 이름으로 사용자를 검색하는 역할을 수행한다.
+- UsernameNotFoundException
+  - 지정 이름의 사용자를 찾지 못 했을 경우 발생하는 예외
+  - 예외 계층 : RuntimeException <- AuthenticationException <- UsernameNotFoundException
+
+---
