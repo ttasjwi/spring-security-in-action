@@ -6,21 +6,31 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class DummyUser implements UserDetails {
+public class CustomUserDetails implements UserDetails {
+
+    private final String username;
+    private final String password;
+    private final String authority;
+
+    public CustomUserDetails(String username, String password, String authority) {
+        this.username = username;
+        this.password = password;
+        this.authority = authority;
+    }
 
     @Override
     public String getUsername() {
-        return "user";
+        return username;
     }
 
     @Override
     public String getPassword() {
-        return "1111";
+        return password;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(() -> "READ");
+        return List.of(() -> authority);
     }
 
     @Override

@@ -196,3 +196,26 @@ public interface UserDetailsService {
   - 예외 계층 : RuntimeException <- AuthenticationException <- UsernameNotFoundException
 
 ---
+
+## 커스텀 UserDetailsService
+```java
+public class MyInMemoryUserDetailsService implements UserDetailsService {
+
+    private final List<UserDetails> users = new ArrayList<>();
+
+    public MyInMemoryUserDetailsService(List<UserDetails> users) {
+        this.users.addAll(users);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return users.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst()
+                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
+    }
+}
+```
+- 메모리 저장소에 접근하여 사용자 인증 정보를 가져오는 UserDetailsService를 구현했다.
+
+---
