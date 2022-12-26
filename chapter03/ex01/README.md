@@ -124,3 +124,23 @@ public class SimpleUser implements UserDetails {
 사용자 이름과 암호를 사용자의 상태로 가지도록 정의했다.
 
 ---
+
+## User.UserBuilder를 사용하여 인스턴스 만들기
+```java
+	public static void main(String[] args) {
+		UserDetails u1 = User.builder()
+				.username("user")
+				.password("1111")
+				.passwordEncoder(p -> p)
+				.accountExpired(false)
+				.disabled(true)
+				.build(); // 빌더 끝에서 build() 메서드를 호출한다.
+		
+		UserDetails u2 = User
+				.withUserDetails(u1) // 기존의 UserDetails 인스턴스로부터 사용자를 만들 수 있음
+				.build();
+	}
+```
+- User.UserBuilder를 사용하여 UserDetails 인스턴스를 만들 수 있다.
+
+---
