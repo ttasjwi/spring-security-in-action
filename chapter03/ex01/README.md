@@ -93,3 +93,34 @@ public class DummyUser implements UserDetails {
 - 만료, 잠금, 자격증명 만료, 비활성화 어디에서 해당 안 됨
 
 ---
+
+## SimpleUser
+```java
+
+public class SimpleUser implements UserDetails {
+
+    private final String username;
+    private final String password;
+
+    public SimpleUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+    
+    // 생략
+}
+
+```
+사용자 이름과 암호를 사용자의 상태로 가지도록 정의했다.
+
+---
