@@ -144,3 +144,40 @@ public class SimpleUser implements UserDetails {
 - User.UserBuilder를 사용하여 UserDetails 인스턴스를 만들 수 있다.
 
 ---
+
+## UserDetails 구현체와 엔티티 분리
+```java
+
+public class SecurityUser implements UserDetails {
+
+    private final Member member; // 사용자 엔티티와 UserDetails 역할을 분리한다.
+
+    public SecurityUser(Member member) {
+        this.member = member;
+    }
+
+    @Override
+    public String getUsername() {
+        return member.getName();
+    }
+
+    @Override
+    public String getPassword() {
+        return member.getPassword();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(()-> member.getAuthority());
+    }
+    
+    // 생략
+}
+```
+
+- 사용자 엔티티가 UserDetails 역할을 같이 수행하게 되면, 사용자 엔티티는 변경의 이유가 두가지가 된다. 이는 단일 책임 원칙을 위반한다.
+  - 도메인 규칙
+  - 인증, 인가에 관련된 로직
+- UserDetails 구현체가 사용자 엔티티를 의존하게 하고 인증에 관한 로직은 이 곳에 두도록 하면 된다.
+
+---
