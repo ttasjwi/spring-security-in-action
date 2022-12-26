@@ -95,3 +95,62 @@ Hello!
 - 인증에 성공한다.
 
 ---
+
+## JdbcUserDetailsManager 설정
+
+### schema.sql
+```sql
+create schema spring;
+
+CREATE TABLE IF NOT EXISTS `spring`.`users` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(45) NULL,
+    `password` VARCHAR(45) NULL,
+    `enabled` INT NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `spring`.`authorities` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(45) NULL,
+    `authority` VARCHAR(45) NULL,
+    PRIMARY KEY (`id`)
+);
+```
+- 수동으로 스키마를 따로 생성하고, 해당 스키마에 table을 생성하도록 했다.
+
+### data.sql
+```sql
+INSERT INTO `spring`.`authorities` VALUES (NULL, 'user', 'write');
+INSERT INTO `spring`.`users` VALUES (NULL, 'user', '1111', '1');
+```
+- 새로운 스키마에 맞게 Insert문을 수정했다.
+
+### ProjectConfig
+```java
+
+    @Bean
+    public UserDetailsService userDetailsService(DataSource dataSource) {
+        String usersByUsernameQuery =
+                "SELECT username, password, enabled" +
+                        " FROM spring.users" +
+                        " WHERE username = ?";
+
+        String authsByUsernameQuery =
+                "SELECT username, authority" +
+                        " FROM spring.authorities" +
+                        " WHERE username = ?";
+
+        var userDetailsManager = new JdbcUserDetailsManager(dataSource);
+        userDetailsManager.setUsersByUsernameQuery(usersByUsernameQuery);
+        userDetailsManager.setAuthoritiesByUsernameQuery(authsByUsernameQuery);
+
+        return userDetailsManager;
+    }
+```
+변경에 맞게 사용자 조회 쿼리, 사용자 권한 조회 쿼리를 수정해야한다.  
+- `setUsersByUsernameQuery(...)` : 사용자 조회 쿼리를 설정할 수 있다.
+- `setAuthoritiesByUsernameQuery(...)` : 사용자 권한 조회를 위해 사용하는 쿼리를 수정할 수 있다.
+
+---
+
