@@ -44,3 +44,40 @@ public class PlainTextPasswordEncoder implements PasswordEncoder {
 - 암호를 단순히 일반 텍스트로 취급한다
 
 ---
+
+## SHA-512로 입력을 해싱하여 암호화하는 PasswordEncoder 구현
+```java
+
+public class Sha512PasswordEncoder implements PasswordEncoder {
+
+    @Override
+    public String encode(CharSequence rawPassword) {
+        return hashWithSHA512(rawPassword.toString());
+    }
+
+    private String hashWithSHA512(String input) {
+        StringBuilder result = new StringBuilder();
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+            byte[] digested = messageDigest.digest(input.getBytes());
+            for (byte b : digested) {
+                result.append(Integer.toHexString(0xFF & b));
+            }
+            return result.toString(); // 입력의 해시값을 반환함.
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Bad algorithm", e);
+        }
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        String hashedPassword = encode(rawPassword);
+        return encodedPassword.equals(hashedPassword);
+    }
+
+}
+```
+- SHA-512 로 원시암호를 해시하여 인코딩하는 방식으로 직접 구현
+- 하지만 스프링 시큐리티에서 제공하는 더 좋은 기본 PasswordEncoder 구현체들이 있으므로 차라리 이들을 사용하는 것을 고려해볼만 하다.
+
+---
