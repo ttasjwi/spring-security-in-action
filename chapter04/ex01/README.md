@@ -24,3 +24,23 @@ PasswordEncoder 계약을 통해 스프링 시큐리티에 암호를 검증하�
   - true를 반환하도록 오버라이드하면 보안 향상을 위해 다시 인코딩한다.
 
 ---
+
+## PasswordEncoder의 가장 단순한 구현
+```java
+public class PlainTextPasswordEncoder implements PasswordEncoder {
+
+    @Override
+    public String encode(CharSequence rawPassword) {
+        return rawPassword.toString(); // 암호를 변경하지 않고 그대로 반환
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return rawPassword.equals(encodedPassword); // 두 문자열이 같은지 확인한다.
+    }
+}
+```
+- NoOpPasswordEncoder와 동일한 방식의 구현
+- 암호를 단순히 일반 텍스트로 취급한다
+
+---
