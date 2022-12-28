@@ -81,3 +81,53 @@ public class Sha512PasswordEncoder implements PasswordEncoder {
 - 하지만 스프링 시큐리티에서 제공하는 더 좋은 기본 PasswordEncoder 구현체들이 있으므로 차라리 이들을 사용하는 것을 고려해볼만 하다.
 
 ---
+
+## 여러가지 기본 PasswordEncoder
+### StandardPasswordEncoder
+```java
+PasswordEncoder p = new StandardPasswordEncoder();
+PasswordEncoder p = new StandardPasswordEncoder("secret");
+```
+- `SHA-256` 알고리즘을 사용하여 해싱
+- 이제는 사용하지 않는 것이 좋다. (Deprecated)
+
+### Pdkdf2PasswordEncoder
+```java
+PasswordEncoder p = new Pbkdf2PasswordEncoder();
+PasswordEncoder p = new Pbkdf2PasswordEncoder("secret");
+PasswordEncoder p = new Pbkdf2PasswordEncoder("secret", 185000, 256);
+```
+- PBKDF2로 암호를 인코딩
+- secret, iterations, hashWidth
+  - secret : 키
+  - iterations : 암호 인코딩 반복 횟수
+  - hashWidth : 해시의 크기
+- iterations, hashWidth 값이 클 수록 강력해지지만, 애플리케이션이 소비하는 리소스가 증가한다.
+
+### BCryptPasswordEncoder
+```java
+PasswordEncoder p = new BCryptPasswordEncoder();
+PasswordEncoder p = new BCryptPasswordEncoder(4);
+
+SecureRandom secureRandom = SecureRandom.getInstanceStrong();
+PasswordEncoder p = new BCryptPasswordEncoder(4, secureRandom);
+```
+- bcrypt 강력 해싱함수를 이용한 패스워드 인코더
+- strength, SecureRandom
+  - strength : 로그 라운드를 나타내는 강도 계수. 해싱 작업이 이용하는 반복 횟수에 영향을 끼친다.
+    - 반복 횟수는 2로그 라운드로 계산되고, 이 값은 4~31 사이여야 한다.
+  - SecureRandom : 인코딩에 사용되는 SecureRandom
+
+### SCryptPasswordEncoder
+```java
+PasswordEncoder p = new SCryptPasswordEncoder();
+PasswordEncoder p = new SCryptPasswordEncoder(16384, 8, 1, 32, 64);
+```
+- cpuCost, memoryCost, parallelization, keyLength, saltLength
+  - cpuCost : CPU 비용
+  - memoryCost : 메모리 비용
+  - parallelization : 병렬화 계수
+  - keyLength : 키 길이
+  - saltLength : 솔트 길이
+
+---
