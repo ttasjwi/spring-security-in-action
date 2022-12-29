@@ -492,3 +492,63 @@ private class UnmappedIdPasswordEncoder implements PasswordEncoder {
 </details>
 
 ---
+
+## KeyGenerator : 키(솔트) 생성
+
+직접 PasswordEncoder를 구현하고 싶을 때, 기반이 되는 키 생성기, 암호기를 스프링 시큐리티가 제공한다.
+
+<details>
+<summary>접기/펼치기 버튼</summary>
+<div markdown="1">
+
+### StringKeyGenerator
+```java
+public interface StringKeyGenerator {
+	String generateKey();
+}
+```
+```java
+StringKeyGenerator keyGenerator = KeyGenerators.string();
+String salt = keyGenerator.generateKey();
+```
+- 이 방식으로 생성된 StringKeyGenerator는 8바이트 키(솔트)를 생성하고, 이를 16진수 문자열로 인코딩한다.
+
+### BytesKeyGenerator
+```java
+public interface BytesKeyGenerator {
+
+	int getKeyLength();
+	byte[] generateKey();
+
+}
+```
+- 바이트 배열 형태로 키를 반환한다.
+- 바이트 배열의 길이도 반환
+```java
+BytesKeyGenerator keyGenerator = KeyGenerators.secureRandom();
+
+byte[] key = keyGenerator.generateKey();
+int keyLength = keyGenerator.getKeyLength();
+```
+- 이 방식을 사용하면 8바이트 배열의 key를 생성한다.
+- 매번 다른 솔트가 생성된다.
+```java
+BytesKeyGenerator keyGenerator = KeyGenerators.secureRandom(16);
+```
+- 바이트 길이를 지정할 수 있다.
+```java
+BytesKeyGenerator keyGenerator = KeyGenerators.shared(16);
+
+byte[] key1 = keyGenerator.generateKey();
+byte[] key2 = keyGenerator.generateKey();
+
+log.info("key1 = {}", key1);
+log.info("key2 = {}", key2);
+assertThat(key1).isEqualTo(key2);
+```
+- 매번 같은 키(솔트)를 생성하고 싶을 때 이 방식을 사용하면 된다.
+
+</div>
+</details>
+
+---
