@@ -40,10 +40,16 @@
   - (x, y) -> boolean : 일치 여부를 얻어내는 함수
 
 ### 솔트(Salt)
-- 해싱함수의 입력에 임의의 값을 추가하여 암호화
-  - 예) (x, k) -> y
-  - 여기서 k가 솔트가 된다.
+- 보통 잘 알려진 함수들의 매커니즘은 거의 노출된 경우가 많다. 가능한 모든 암호 케이스에 대해셔 결과 값들을 만들어낼 수 있는데
+이 결과를 '레인보우 테이블'이라고 한다. 레인보우 테이블을 만들고, 무차별 공격을 반복해서 암호를 탈취할 수도 있다.
+이런 레인보우 테이블 브루트 포스 공격을 어떻게 대응할 수 있을까?
+- 해싱함수의 입력에 임의의 값(솔트)을 추가하여 암호화한다.
+  - 예를 들어 x만을 이용하여 해싱하면 무조건 y가 된다고 하자. 
+  - 하지만 매번 임의로 생성된 솔트(k,l,m, ...)를 더하여 인코딩하면 z1,z2, ... 이렇게 다른 결과값을 만들어낼 수 있다.
+  - 최종적으로 만들어진 암호의 특정 위치에 솔트를 두고, 뒤에 결과값을 붙여보자.
+  - `x`를 기반으로 `kz1`, `lz2`, `mz3`, ... 와 같이 매번 다른 암호화 결과가 만들어진다. 
 - 솔트를 통해서, 함수를 더 강하게 만들고, 결과에서 입력을 얻는 역함수의 적용 난도를 높일 수 있다.
+- 참고글) https://jhkimmm.tistory.com/m/24
 
 </div>
 </details>
@@ -547,6 +553,81 @@ log.info("key2 = {}", key2);
 assertThat(key1).isEqualTo(key2);
 ```
 - 매번 같은 키(솔트)를 생성하고 싶을 때 이 방식을 사용하면 된다.
+
+</div>
+</details>
+
+---
+
+## 암호화, 복호화 작업 -> 암호기(Encryptor)
+
+<details>
+<summary>접기/펼치기 버튼</summary>
+<div markdown="1">
+
+### 암호기
+```java
+public interface BytesEncryptor {
+	byte[] encrypt(byte[] byteArray);
+	byte[] decrypt(byte[] encryptedByteArray);
+}
+```
+```java
+public interface TextEncryptor {
+	String encrypt(String text);
+	String decrypt(String encryptedText);
+}
+
+```
+- 암호화 알고리즘을 구현하는 객체
+- BytesEncryptor, TextEncryptor 두 유형의 암호기가 정의됨
+  - 역할은 비슷하지만 타입이 다름
+  - Bytes : 바이트 배열로 관리
+  - Text : string으로 관리
+
+### BytesEncryptor
+```java
+String password = "secret";
+String salt = KeyGenerators.string().generateKey();
+String valueToEncrypt = "캬루";
+byte[] rawBytes = valueToEncrypt.getBytes();
+
+//BytesEncryptor encryptor = Encryptors.standard(password, salt); // 더 약함 ---> CBC(암호 블록 체인) 이용
+BytesEncryptor encryptor = Encryptors.stronger(password, salt); // 더 강함 --> 256바이트 AES 암호화, GCM 사용
+byte[] encrypted = encryptor.encrypt(rawBytes);
+byte[] decrypted = encryptor.decrypt(encrypted); // rawBytes와 같음
+```
+- Encryptors.standard 또는 Encryptors.stronger 사용
+
+### Text Encryptor
+```java
+String valueToEncrypt = "캬루";
+TextEncryptor encryptor = Encryptors.noOpText();
+String encrypted = encryptor.encrypt(valueToEncrypt);
+```
+- 평문으로 관리
+
+```java
+String password = "secret";
+String salt = KeyGenerators.string().generateKey();
+String valueToEncrypt = "캬루";
+
+//TextEncryptor encryptor = Encryptors.text(password, salt); // 내부적으로 Encryptors.standard() 사용
+TextEncryptor encryptor = Encryptors.delux(password, salt); // 내부적으로 Encryptors.stronger() 사용
+String encrypted = encryptor.encrypt(valueToEncrypt);
+String decrypted = encryptor.decrypt(encrypted);
+```
+- 패스워드, 솔트를 섞은 형태
+- Encryptors.text 보다 Encryptors.delux가 더 강하다.
+
+```java
+TextEncryptor encryptor = Encryptors.queryableText(password, salt);
+String encrypted1 = encryptor.encrypt(valueToEncrypt);
+String encrypted2 = encryptor.encrypt(valueToEncrypt); // 매번 같다
+```
+- Encryptors.queryableText는 매번 같은 결과를 반환한다.
+- deprecated됨
+
 
 </div>
 </details>
