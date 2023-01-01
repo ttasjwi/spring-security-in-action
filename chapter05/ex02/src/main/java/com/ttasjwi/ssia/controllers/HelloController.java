@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/hello")
-    public String hello() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication a = context.getAuthentication();
+    public String hello(Authentication a) {// 스프링 부트가 현재 Authentication을 메서드 매개 변수에 주입한다.
+        // SecurityContext context = SecurityContextHolder.getContext();
+        // Authentication a = context.getAuthentication();
+
         return "Hello, "+ a.getName() + "!";
     }
 }

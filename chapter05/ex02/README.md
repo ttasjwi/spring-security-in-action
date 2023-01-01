@@ -36,4 +36,15 @@ Hello, user!
 ```
 - SecurityContextHolder를 통해 스레드 로컬에 저장된 SecurityContext를 조회해올 수 있다.
 
+```java
+    @GetMapping("/hello")
+    public String hello(Authentication a) {// 스프링 부트가 현재 Authentication을 메서드 매개 변수에 주입한다.
+        // SecurityContext context = SecurityContextHolder.getContext();
+        // Authentication a = context.getAuthentication();
+        
+        return "Hello, "+ a.getName() + "!"; 
+    }
+```
+- 위와 같이 컨트롤러의 메서드 매개변수로 Authentication을 지정하면, 스프링 부트가 현재 Authentication을 메서드 매개변수에 주입한다.
 
+---
