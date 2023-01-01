@@ -20,3 +20,20 @@ public interface SecurityContext extends Serializable {
   - `MODE_GLOBAL` : 애플리케이션의 모든 스레드가 같은 SecurityContext 인스턴스를 보게 함
 
 ---
+
+## MODE_THREADLOCAL 전략
+```java
+    @GetMapping("/hello")
+    public String hello() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication a = context.getAuthentication();
+        return "Hello, "+ a.getName() + "!";
+    }
+```
+```shell
+$ curl -u user:3c9dd14d-64e0-4274-a59c-1b480bb44b93 http://localhost:8080/hello                                                                                                                                                    
+Hello, user!
+```
+- SecurityContextHolder를 통해 스레드 로컬에 저장된 SecurityContext를 조회해올 수 있다.
+
+
