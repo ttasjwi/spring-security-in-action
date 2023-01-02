@@ -88,4 +88,19 @@ java.lang.NullPointerException: null
 - 이후 코드를 실행해보면 NullPointerException이 발생한다.
 - 해당 메서드가 SecurityContext를 상속하지 않는 다른 스레드에서 실행되기 때문이다.
 
+### `MODE_INHERITABLETHREADLOCAL` 활성화
+```java
+@Configuration
+@EnableAsync
+public class ProjectConfig {
+
+    @Bean
+    public InitializingBean initializingBean() {
+        return () -> SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+    }
+}
+```
+- 위와 같이 설정하면 스프링이 요청의 원래 스레드에 있는 SecurityContext를 비동기 메서드의 새로 생성된 스레드로 복사한다.
+- 이제 엔드 포인트를 호출하면 보안 컨텍스트를 올바르게 다음 스레드로 전파하며, 더 이상 Authentication이 null이 아니다.
+
 ---
