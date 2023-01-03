@@ -147,3 +147,35 @@ ExecutorService에서 실행하면 된다.
 - 참고 링크 : https://docs.spring.io/spring-security/reference/features/integrations/concurrency.html
 
 ---
+
+## DelegatingSecurityContextExecutorService
+```java
+    @GetMapping("/hola")
+    public String hola() throws Exception {
+        Callable<String> task = () -> {
+            SecurityContext context = SecurityContextHolder.getContext();
+            return context.getAuthentication().getName();
+        };
+
+        ExecutorService e = Executors.newCachedThreadPool();
+        e = new DelegatingSecurityContextExecutorService(e);
+        try {
+            return "Hola, "+ e.submit(task).get() + "!";
+        } finally {
+            e.shutdown();
+        }
+    }
+```
+- SecurityContext 전파를 작업(Runnable, Callable)에서 처리하지 않고, 스레드 풀 차원에서 전파를 관리할 수 있다.
+- DelegatingSecurityContextExecutorService 를 생성할 때 기존의 ExecutorService를 장식해 작업을 제출한다.
+- 이후 해당 스레드풀에서 수행되는 작업들에 모두 SecurityContext가 전파된다.
+
+## 그 외
+그 외로, 보안 컨텍스트를 별도의 스레드로 전파하는 객체들을 나열하면 다음과 같다.
+- DelegatingSecurityContextExecutor : Executor 장식
+- DelegatingSecurityContextExecutorService : ExecutorService 장식
+- DelegatingSecurityContextScheduledExecutorService : ScheduledExecutorService 장식
+- DelegatingSecurityContextRunnable : Runnable 장식
+- DelegatingSecurityContextCallable : Callable 장식
+
+---
