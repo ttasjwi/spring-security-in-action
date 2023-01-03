@@ -121,3 +121,29 @@ public class ProjectConfig {
 - 사실상 웹 서버에서는 절대 사용해선 안 되는 전략이다.
 
 ---
+
+## DelegatingSecurityContextRunnable
+```java
+    @GetMapping("/ciao")
+    public String ciao() throws Exception {
+        Callable<String> task = () -> {
+            SecurityContext context = SecurityContextHolder.getContext();
+            return context.getAuthentication().getName();
+        };
+
+        ExecutorService e = Executors.newCachedThreadPool();
+        try {
+            var contextTask = new DelegatingSecurityContextCallable<>(task);
+            return "Ciao, "+ e.submit(contextTask).get() + "!";
+        } finally {
+            e.shutdown();
+        }
+    }
+```
+- 스프링 프레임워크가 모르게, 스레드를 생성하면 SecurityContext가 상속되지 않는다.
+- 별도의 개발자가 직접 만든 스레드에서 SecurityContext를 전파시키려면 위와 같이 DelegatingSecurityContextCallable로 감싸고, 이를
+ExecutorService에서 실행하면 된다.
+  - (그런데 사실 감싸지 않고도 실행이 된다. 뭐지...?)
+- 참고 링크 : https://docs.spring.io/spring-security/reference/features/integrations/concurrency.html
+
+---
