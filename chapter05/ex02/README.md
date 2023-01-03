@@ -104,3 +104,20 @@ public class ProjectConfig {
 - 이제 엔드 포인트를 호출하면 보안 컨텍스트를 올바르게 다음 스레드로 전파하며, 더 이상 Authentication이 null이 아니다.
 
 ---
+
+## `MODE_GLOBAL` 전략
+```java
+@Configuration
+@EnableAsync
+public class ProjectConfig {
+
+    @Bean
+    public InitializingBean initializingBean() {
+        return () -> SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
+    }
+}
+```
+- 모든 스레드가 같은 SecurityContext를 바라보게 하는 전략이다.
+- 사실상 웹 서버에서는 절대 사용해선 안 되는 전략이다.
+
+---
