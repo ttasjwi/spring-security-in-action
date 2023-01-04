@@ -9,9 +9,10 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic(configure ->
-                configure.realmName("OTHER")
-        );
+        http.httpBasic(configure -> {
+            configure.realmName("OTHER");
+            configure.authenticationEntryPoint(new CustomEntryPoint());
+        });
         http.authorizeRequests().anyRequest().authenticated();
     }
 }
