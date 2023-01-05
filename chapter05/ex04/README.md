@@ -54,3 +54,71 @@ public class HelloController {
 여기서 로그인을 진행하면 자동으로 `http://localhost:8080/home` 으로 리다이렉트 된다.
 
 ---
+
+## Form 로그인 성공/실패 처리 커스텀 핸들러
+```java
+@Component
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
+
+        if (hasReadAuthority(authentication)) {
+            response.sendRedirect("/home");
+            return;
+        }
+        response.sendRedirect("/error");
+    }
+
+    private static boolean hasReadAuthority(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .filter(grantedAuthority -> grantedAuthority.getAuthority().equals("read"))
+                .findFirst()
+                .isPresent();
+    }
+}
+```
+- 로그인 성공 시 처리 로직을 작성할 수 있다.
+```java
+
+@Component
+public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+                                        AuthenticationException exception) throws IOException, ServletException {
+
+        response.setHeader("failed", LocalDateTime.now().toString());
+    }
+}
+```
+- 로그인 실패 시 처리 로직을 작성할 수 있다.
+```java
+
+@Configuration
+@RequiredArgsConstructor
+public class ProjectConfig extends WebSecurityConfigurerAdapter {
+
+    private final AuthenticationSuccessHandler successHandler;
+    private final AuthenticationFailureHandler failureHandler;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.formLogin()
+                .successHandler(successHandler)
+                .failureHandler(failureHandler)
+            .and()
+                .httpBasic();
+
+        http.authorizeRequests()
+                .anyRequest()
+                .authenticated();
+    }
+}
+```
+- 상세한 성공, 실패 로직 작성시, 위와 같이 successHandler, failureHandler 에게 책임을 분리하면 응집도를 높일 수 있다.
+- Form 로그인 방식과 HTTP BASIC 방식을 동시에 사용할 수 있다.
+
+---
