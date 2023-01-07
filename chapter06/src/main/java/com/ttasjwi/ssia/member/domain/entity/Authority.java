@@ -1,6 +1,6 @@
-package com.ttasjwi.ssia.domain.entity;
+package com.ttasjwi.ssia.member.domain.entity;
 
-import com.ttasjwi.ssia.domain.vo.AuthorityId;
+import com.ttasjwi.ssia.member.domain.vo.AuthorityId;
 import lombok.Builder;
 import lombok.Getter;
 

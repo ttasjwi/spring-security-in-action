@@ -1,7 +1,7 @@
-package com.ttasjwi.ssia.domain.entity;
+package com.ttasjwi.ssia.member.domain.entity;
 
-import com.ttasjwi.ssia.domain.vo.EncryptionAlgorithm;
-import com.ttasjwi.ssia.domain.vo.MemberId;
+import com.ttasjwi.ssia.member.domain.vo.EncryptionAlgorithm;
+import com.ttasjwi.ssia.member.domain.vo.MemberId;
 import lombok.Builder;
 import lombok.Getter;
 

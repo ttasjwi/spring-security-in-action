@@ -1,12 +1,12 @@
-package com.ttasjwi.ssia.adapter.output.persistence.mapper;
+package com.ttasjwi.ssia.member.adapter.output.mapper;
 
-import com.ttasjwi.ssia.adapter.output.persistence.data.AuthorityData;
-import com.ttasjwi.ssia.adapter.output.persistence.data.MemberData;
-import com.ttasjwi.ssia.domain.entity.Authority;
-import com.ttasjwi.ssia.domain.entity.Member;
-import com.ttasjwi.ssia.domain.vo.AuthorityId;
-import com.ttasjwi.ssia.domain.vo.EncryptionAlgorithm;
-import com.ttasjwi.ssia.domain.vo.MemberId;
+import com.ttasjwi.ssia.member.adapter.output.data.AuthorityData;
+import com.ttasjwi.ssia.member.adapter.output.data.MemberData;
+import com.ttasjwi.ssia.member.domain.entity.Authority;
+import com.ttasjwi.ssia.member.domain.entity.Member;
+import com.ttasjwi.ssia.member.domain.vo.AuthorityId;
+import com.ttasjwi.ssia.member.domain.vo.EncryptionAlgorithm;
+import com.ttasjwi.ssia.member.domain.vo.MemberId;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

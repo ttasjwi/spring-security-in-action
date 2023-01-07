@@ -1,6 +1,6 @@
-package com.ttasjwi.ssia.adapter.output.persistence.repository;
+package com.ttasjwi.ssia.member.adapter.output.repository;
 
-import com.ttasjwi.ssia.adapter.output.persistence.data.MemberData;
+import com.ttasjwi.ssia.member.adapter.output.data.MemberData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
