@@ -1,10 +1,10 @@
-package com.ttasjwi.ssia.adapter.output.persistence;
+package com.ttasjwi.ssia.product.adapter.output.persistence;
 
-import com.ttasjwi.ssia.adapter.output.persistence.data.ProductData;
-import com.ttasjwi.ssia.adapter.output.persistence.mapper.ProductMapper;
-import com.ttasjwi.ssia.adapter.output.persistence.repository.ProductRepository;
-import com.ttasjwi.ssia.application.ports.output.ProductOutputPort;
-import com.ttasjwi.ssia.domain.entity.Product;
+import com.ttasjwi.ssia.product.adapter.output.persistence.data.ProductData;
+import com.ttasjwi.ssia.product.adapter.output.persistence.mapper.ProductMapper;
+import com.ttasjwi.ssia.product.adapter.output.persistence.repository.ProductRepository;
+import com.ttasjwi.ssia.product.application.ports.output.ProductOutputPort;
+import com.ttasjwi.ssia.product.domain.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.ttasjwi.ssia.domain.vo;
+package com.ttasjwi.ssia.product.domain.vo;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

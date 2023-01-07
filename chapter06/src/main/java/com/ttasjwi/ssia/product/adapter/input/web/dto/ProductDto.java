@@ -1,6 +1,6 @@
-package com.ttasjwi.ssia.adapter.input.web.dto;
+package com.ttasjwi.ssia.product.adapter.input.web.dto;
 
-import com.ttasjwi.ssia.domain.entity.Product;
+import com.ttasjwi.ssia.product.domain.entity.Product;
 import lombok.Getter;
 
 import java.math.BigDecimal;

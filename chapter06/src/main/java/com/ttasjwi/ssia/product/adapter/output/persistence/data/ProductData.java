@@ -1,4 +1,4 @@
-package com.ttasjwi.ssia.adapter.output.persistence.data;
+package com.ttasjwi.ssia.product.adapter.output.persistence.data;
 
 import lombok.AccessLevel;
 import lombok.Builder;

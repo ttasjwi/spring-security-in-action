@@ -1,7 +1,7 @@
-package com.ttasjwi.ssia.adapter.input.web;
+package com.ttasjwi.ssia.product.adapter.input.web;
 
-import com.ttasjwi.ssia.adapter.input.web.dto.ProductDto;
-import com.ttasjwi.ssia.application.usecases.ProductUseCase;
+import com.ttasjwi.ssia.product.adapter.input.web.dto.ProductDto;
+import com.ttasjwi.ssia.product.application.usecases.ProductUseCase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

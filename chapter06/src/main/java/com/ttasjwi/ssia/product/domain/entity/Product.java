@@ -1,7 +1,7 @@
-package com.ttasjwi.ssia.domain.entity;
+package com.ttasjwi.ssia.product.domain.entity;
 
-import com.ttasjwi.ssia.domain.vo.Money;
-import com.ttasjwi.ssia.domain.vo.ProductId;
+import com.ttasjwi.ssia.product.domain.vo.Money;
+import com.ttasjwi.ssia.product.domain.vo.ProductId;
 import lombok.Builder;
 import lombok.Getter;
 

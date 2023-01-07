@@ -1,10 +1,10 @@
-package com.ttasjwi.ssia.adapter.output.persistence.mapper;
+package com.ttasjwi.ssia.product.adapter.output.persistence.mapper;
 
-import com.ttasjwi.ssia.adapter.output.persistence.data.ProductData;
-import com.ttasjwi.ssia.domain.entity.Product;
-import com.ttasjwi.ssia.domain.vo.Currency;
-import com.ttasjwi.ssia.domain.vo.Money;
-import com.ttasjwi.ssia.domain.vo.ProductId;
+import com.ttasjwi.ssia.product.adapter.output.persistence.data.ProductData;
+import com.ttasjwi.ssia.product.domain.entity.Product;
+import com.ttasjwi.ssia.product.domain.vo.Currency;
+import com.ttasjwi.ssia.product.domain.vo.Money;
+import com.ttasjwi.ssia.product.domain.vo.ProductId;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

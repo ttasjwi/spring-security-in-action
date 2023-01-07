@@ -1,8 +1,8 @@
-package com.ttasjwi.ssia.application.ports.input;
+package com.ttasjwi.ssia.product.application.ports.input;
 
-import com.ttasjwi.ssia.application.ports.output.ProductOutputPort;
-import com.ttasjwi.ssia.application.usecases.ProductUseCase;
-import com.ttasjwi.ssia.domain.entity.Product;
+import com.ttasjwi.ssia.product.application.ports.output.ProductOutputPort;
+import com.ttasjwi.ssia.product.application.usecases.ProductUseCase;
+import com.ttasjwi.ssia.product.domain.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
