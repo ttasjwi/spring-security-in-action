@@ -16,6 +16,7 @@ public class ProductData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="product_id")
     private Long id;
     private String name;
     private BigDecimal price;
