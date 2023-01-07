@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public class UserId {
+public class MemberId {
 
     private Long id;
 
-    public UserId(Long id) {
+    public MemberId(Long id) {
         this.id = id;
     }
 }
