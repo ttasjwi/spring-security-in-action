@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost/spring?useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   h2:
     console:
@@ -17,6 +17,10 @@ spring:
         dialect:
           - org.hibernate.dialect.MySQL8Dialect
           - storage_engine: innodb
+  sql:
+    init:
+      mode: always
+
 logging:
   level:
     org.hibernate.SQL: debug # 하이버네이트 실행 SQL을 logger를 통해 남긴다.
