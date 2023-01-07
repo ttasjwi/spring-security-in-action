@@ -17,4 +17,8 @@ public class Authority {
         this.name = name;
         this.member = member;
     }
+
+    public void initMember(Member member) {
+        this.member = member;
+    }
 }

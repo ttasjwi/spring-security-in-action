@@ -18,11 +18,19 @@ public class Member {
     private final List<Authority> authorities = new ArrayList<>();
 
     @Builder
-    public Member(MemberId id, String name, String password, EncryptionAlgorithm algorithm, List<Authority> authorities) {
+    public Member(MemberId id, String name, String password, EncryptionAlgorithm algorithm) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.algorithm = algorithm;
-        this.authorities.addAll(authorities);
+    }
+
+    public void initAuthorities(List<Authority> authorities) {
+        authorities.forEach(this::addAuthority);
+    }
+
+    public void addAuthority(Authority authority) {
+        authorities.add(authority);
+        authority.initMember(this);
     }
 }
