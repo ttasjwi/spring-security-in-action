@@ -5,7 +5,6 @@ import com.ttasjwi.ssia.member.adapter.output.data.MemberData;
 import com.ttasjwi.ssia.member.domain.entity.Authority;
 import com.ttasjwi.ssia.member.domain.entity.Member;
 import com.ttasjwi.ssia.member.domain.vo.AuthorityId;
-import com.ttasjwi.ssia.member.domain.vo.EncryptionAlgorithm;
 import com.ttasjwi.ssia.member.domain.vo.MemberId;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,6 @@ public class MemberMapper {
                 .id(new MemberId(memberData.getId()))
                 .name(memberData.getName())
                 .password(memberData.getPassword())
-                .algorithm(EncryptionAlgorithm.valueOf(memberData.getAlgorithm().name()))
                 .build();
 
         List<Authority> authorities = mapToDomainEntities(memberData.getAuthorities());

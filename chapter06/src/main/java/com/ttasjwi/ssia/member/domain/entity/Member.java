@@ -1,6 +1,5 @@
 package com.ttasjwi.ssia.member.domain.entity;
 
-import com.ttasjwi.ssia.member.domain.vo.EncryptionAlgorithm;
 import com.ttasjwi.ssia.member.domain.vo.MemberId;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,15 +13,13 @@ public class Member {
     private MemberId id;
     private String name;
     private String password;
-    private EncryptionAlgorithm algorithm;
     private final List<Authority> authorities = new ArrayList<>();
 
     @Builder
-    public Member(MemberId id, String name, String password, EncryptionAlgorithm algorithm) {
+    public Member(MemberId id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.algorithm = algorithm;
     }
 
     public void initAuthorities(List<Authority> authorities) {

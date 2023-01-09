@@ -24,19 +24,14 @@ public class MemberData {
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private PasswordEncryptionAlgorithmData algorithm;
-
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private final List<AuthorityData> authorities = new ArrayList<>();
 
     @Builder
-    public MemberData(Long id, String name, String password,
-                      PasswordEncryptionAlgorithmData algorithm, List<AuthorityData> authorities) {
+    public MemberData(Long id, String name, String password, List<AuthorityData> authorities) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.algorithm = algorithm;
         this.authorities.addAll(authorities);
     }
 }

@@ -2,7 +2,6 @@ CREATE TABLE IF NOT EXISTS `spring`.`member` (
     member_id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(45) NOT NULL,
     password TEXT NOT NULL,
-    algorithm VARCHAR(45) NOT NULL,
     PRIMARY KEY (member_id)
 );
 

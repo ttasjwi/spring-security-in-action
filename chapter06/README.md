@@ -118,3 +118,55 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 - 주소 : https://localhost:8080/main
 
 ---
+
+## 더 개선할 수 있다 : DelegatingPasswordEncoder
+```java
+@Configuration
+public class PasswordEncoderConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        Map<String, PasswordEncoder> passwordEncoders = Map.of(
+                "bCrypt", new BCryptPasswordEncoder(),
+                "sCrypt", new SCryptPasswordEncoder()
+        );
+        return new DelegatingPasswordEncoder("bCrypt", passwordEncoders);
+    }
+
+}
+```
+```java
+
+@Component
+@RequiredArgsConstructor
+public class CustomAuthenticationProvider implements AuthenticationProvider {
+
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        String username = authentication.getName();
+        String rawPassword = authentication.getCredentials().toString();
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        String encodedPassword = userDetails.getPassword();
+
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw new BadCredentialsException("Bad credentials");
+        }
+        
+        return new UsernamePasswordAuthenticationToken(
+                userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+    }
+}
+```
+- 기존 암호들 앞에 `{bCrypt}`를 붙이고, member 테이블의 algorithm 열을 제거한다.
+- DelegatingPasswordEncoder를 통해 암호화, 암호 비교를 위임한다.
+
+---
