@@ -13,6 +13,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .anyRequest()
-                .hasRole("ADMIN");
+                .access("T(java.time.LocalTime).now().isAfter(T(java.time.LocalTime).of(12,0))");
     }
 }
