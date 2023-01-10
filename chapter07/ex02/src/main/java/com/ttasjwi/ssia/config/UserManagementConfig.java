@@ -24,7 +24,7 @@ public class UserManagementConfig {
         var user2 = User.builder()
                 .username("jane")
                 .password("12345")
-                .authorities("WRITE")
+                .authorities("READ", "WRITE", "DELETE")
                 .build();
 
         manager.createUser(user1);
