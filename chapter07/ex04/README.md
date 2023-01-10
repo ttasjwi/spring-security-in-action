@@ -24,3 +24,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 - SpEL : https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#expressions
 
 ---
+
+## 모든 엔드포인트 접근 제한 (denyAll)
+```java
+@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic();
+
+        http.authorizeRequests()
+                .anyRequest()
+                .denyAll(); // 모든 엔드포인트 접근 제한
+    }
+}
+```
+- `denyAll()` : 모든 엔드포인트에 대한 접근을 제한한다.
+
+---

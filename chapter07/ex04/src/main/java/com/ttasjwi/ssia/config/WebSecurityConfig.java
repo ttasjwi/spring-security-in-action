@@ -13,6 +13,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .anyRequest()
-                .access("T(java.time.LocalTime).now().isAfter(T(java.time.LocalTime).of(12,0))");
+                //.access("T(java.time.LocalTime).now().isAfter(T(java.time.LocalTime).of(12,0))");
+                .denyAll(); // 모든 엔드포인트 접근 제한
     }
 }
