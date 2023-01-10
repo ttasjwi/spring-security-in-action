@@ -1,5 +1,6 @@
 # SSIA
 ## Chapter 07 : 권한 부여 구성 - 액세스 제한
+### EX 01 : 사용자 권한을 기준으로 모든 엔드포인트에 접근 제한
 
 ---
 
@@ -64,5 +65,31 @@ public class UserManagementConfig {
 ```
 - john : 읽기 권한 (READ)
 - jane : 쓰기 권한 (WRITE)
+
+---
+
+## 사용자 권한을 기준으로 모든 엔드포인트에 접근 제한
+```java
+
+@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic();
+
+        http.authorizeRequests()
+                .anyRequest()
+                //.permitAll(); // 인증 여부에 관계 없이 모든 요청에 대해 접근 허용
+                //.hasAuthority("WRITE"); // WRITE 권한을 가진 사용자에 대해서만 접근 허용
+                //.hasAnyAuthority("WRITE", "READ"); // WRTIE 또는 READ 권한을 가진 사용자에 대해서 접근 허용
+                .access("hasAuthority('WRITE') and !hasAuthority('READ')"); // SpEL 식을 이용하여 조건 지정
+    }
+}
+```
+- `permitAll()` : 모든 요청에 대해서 접근 허용
+- `hasAuthority()` : 지정 권한을 가진 사용자에 대해서만 접근 허용
+- `hasAnyAuthorities()` : 해당 권한들 중 하나라도 가진 사용자에 대해서 접근 허용
+- `access()` : SpEL 식을 이용하여 조건 지정
 
 ---
