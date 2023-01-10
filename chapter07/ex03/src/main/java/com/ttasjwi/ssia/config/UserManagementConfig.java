@@ -17,12 +17,12 @@ public class UserManagementConfig {
 
         var user1 = User.withUsername("john")
                 .password("12345")
-                .authorities("ROLE_ADMIN")
+                .roles("ADMIN")
                 .build();
 
         var user2 = User.withUsername("jane")
                 .password("12345")
-                .authorities("ROLE_MANAGER")
+                .roles("MANAGER")
                 .build();
 
         manager.createUser(user1);

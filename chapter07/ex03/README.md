@@ -66,3 +66,57 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 - 이때 인자를 넘길 때 `ROLE_`을 접두사가 포함되어선 안 된다.
 
 ---
+
+## 사용자 관리설정 (2)
+````java
+
+@Configuration
+public class UserManagementConfig {
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        var manager = new InMemoryUserDetailsManager();
+
+        var user1 = User.withUsername("john")
+                .password("12345")
+                .roles("ADMIN") // roles
+                .build();
+
+        var user2 = User.withUsername("jane")
+                .password("12345")
+                .roles("MANAGER") // roles
+                .build();
+
+        manager.createUser(user1);
+        manager.createUser(user2);
+
+        return manager;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+}
+````
+- 역할 기반의 접근을 설계할 때 `authorities()` 대신 `roles()`를 이용할 수 있다.
+- 다만 여기서 roles에 `ROLE_` 접두사가 포함된 인자를 넣어선 안 된다.
+
+---
+
+## 실행
+```shell
+curl -u john:12345 http://localhost:8080/hello
+```
+```shell
+curl -u jane:12345 http://localhost:8080/hello
+```
+- john은 ADMIN 역할을 가지고 있으므로 `/hello` 엔드포인트에 접근할 수 있다.
+- jane은 ADMIN 역할을 가지고 있지 않으므로 `/hello` 엔드포인트에 접근할 수 없다.
+
+---
+
+## 참고
+- spEL : https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#expressions
+
+---
