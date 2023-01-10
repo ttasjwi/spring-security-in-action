@@ -14,3 +14,16 @@ public interface GrantedAuthority extends Serializable {
 - 이 계약은 `getAuthority()` 메시지에 응답할 책임을 가지는데, String 형식으로 권한의 이름을 반환해야한다.
 
 ---
+
+## UserDetails 계약의 `getAuthorities()`
+```java
+public interface UserDetails extends Serializable {
+
+	Collection<? extends GrantedAuthority> getAuthorities();
+    
+    // 생략
+}
+```
+- UserDetails는 `getAuthorities()`를 통해, GrantedAuthority 컬렉션을 반환해야한다.
+
+---
